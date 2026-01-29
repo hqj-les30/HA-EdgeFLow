@@ -82,11 +82,10 @@ if __name__ == '__main__':
     # Add arguments here:
     # overall settings
     parser.add_argument('--exp_id', type=str, default='003', help='experiment id')
-    # parser.add_argument('--seed', action='store_true', help='Batch size for training')
     parser.add_argument('--path_to_save', type=str, default='result/', help='path to save results')
     parser.add_argument('--seed', type=int, default=24, help='random seed')
     parser.add_argument('--device', type=str, default='cuda:2', help='device to save tensors')
-    parser.add_argument('--dataset', type=str, default='cifar10', help='experiment id')
+    parser.add_argument('--dataset', type=str, default='cifar10', help='dataset, e.g., cifar10 / fashion')
     parser.add_argument('--n_clients', type=int, default=100, help='number of clients')
 
     # local train
@@ -94,12 +93,13 @@ if __name__ == '__main__':
 
     # server
     parser.add_argument('--global_epoch', type=int, default=1000, help='number of communication round')
-    parser.add_argument('--selection', type=str, default='modecls', help='method of client selection (rand / randcls / modecls)')
-    parser.add_argument('--selection_size', type=int, default=10, help='size of a cluster')
+    parser.add_argument('--cluster', type=str, default='edgeflow', help='method of cluster forming (edgeflow / seqflow / rand)')
+    parser.add_argument('--cluster_size', type=int, default=10, help='size of a cluster')
     parser.add_argument('--l', type=int, default=1, help='the server will aggregate the cluster_size // l smallest lambda clients')
 
     # dataset
-    parser.add_argument('--r1', type=float, default=0.98, help='the server will aggregate the cluster_size // l smallest lambda clients')
-    parser.add_argument('--p', type=str, default='[0.1/0.0/0.9]', help='fraction of clients in each data partition')
+    parser.add_argument('--r0', type=float, default=0.95, help='the non-iid extent of local data')
+    parser.add_argument('--r1', type=float, default=0.98, help='the non-iid extent of local data')
+    parser.add_argument('--p', type=str, default='[0.1/0.0/0.9]', help='fraction of clients of iid , r0-noniid, r1-noniid')
     args = parser.parse_args()
     main(args)
